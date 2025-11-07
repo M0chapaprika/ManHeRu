@@ -18,15 +18,16 @@
             <a href="#">Productos</a>
             <a href="#">Cotizaciones</a>
             <a href="#">Contacto</a>
-            <a href="{{ route('login') }}">Iniciar Sesion</a>
+            
+            @if(session()->has('usuario'))
+                <!-- Mostrar cuando el usuario está logueado -->
+                <a href="{{ route('logout') }}">Cerrar Sesión</a>
+            @else
+                <!-- Mostrar cuando no hay sesión -->
+                <a href="{{ route('login.form') }}">Iniciar Sesión</a>
+            @endif
         </nav>
 
-        <div class="icono-info">
-            <button class="btn-info">
-                <i>ℹ️</i>
-                <span class="arrow">▼</span>
-            </button>
-        </div>
     </header>
 
     <main class="contenido">
@@ -37,6 +38,25 @@
                 adaptados a las necesidades de tu empresa.
             </p>
             <button class="btn-catalogo">Ver catálogo</button>
+            
+            <!-- Mostrar información adicional si el usuario está logueado -->
+            @if(session()->has('usuario'))
+                <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 5px; border-left: 4px solid #8b0000;">
+                    <h3 style="color: #8b0000; margin-bottom: 10px;">Sesión activa</h3>
+                    <p style="margin: 5px 0;"><strong>Usuario:</strong> {{ session('usuario')->Nombre }}</p>
+                    <p style="margin: 5px 0;"><strong>Email:</strong> {{ session('usuario')->Gmail }}</p>
+                    <p style="margin: 5px 0;">
+                        <strong>Rol:</strong> 
+                        @if(session('usuario')->ID_Rol == 1)
+                            Administrador
+                        @elseif(session('usuario')->ID_Rol == 2)
+                            Usuario
+                        @else
+                            Invitado
+                        @endif
+                    </p>
+                </div>
+            @endif
         </section>
     </main>
 </body>

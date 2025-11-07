@@ -7,17 +7,19 @@ body {
 
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; 
     align-items: center;
     background-color: #fff;
     padding: 10px 40px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative; 
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex: 0 0 auto; 
 }
 
 .logo img {
@@ -38,6 +40,9 @@ body {
     padding: 10px 25px;
     border-radius: 5px;
     box-shadow: 0px 4px 4px rgba(0,0,0,0.1);
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
 }
 
 .menu a {
@@ -49,26 +54,6 @@ body {
 
 .menu a:hover {
     color: #8b0000;
-}
-
-.icono-info {
-    display: flex;
-    align-items: center;
-}
-
-.btn-info {
-    background-color: #d9d9d9;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.btn-info:hover {
-    background-color: #bfbfbf;
 }
 
 .contenido {
