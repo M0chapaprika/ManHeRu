@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ asset('css/inicio.css') }}">
 </head>
 <body>
+    <!-- INCLUIR COMPONENTE DE ALERTAS -->
+    @include('components.alert')
+
     <header class="navbar">
         <div class="logo">
             <img src="{{ asset('images/Logo.jpg') }}" alt="Logo ManHeRu">
@@ -20,6 +23,10 @@
             <a href="#">Contacto</a>
             
             @if(session()->has('usuario'))
+                <!-- Mostrar opciones de administrador solo si tiene rol 1 -->
+                @if(session('usuario')->ID_Rol == 1)
+                    <a href="{{ route('usuarios.index') }}">Gestión de Usuarios</a>
+                @endif
                 <!-- Mostrar cuando el usuario está logueado -->
                 <a href="{{ route('logout') }}">Cerrar Sesión</a>
             @else
@@ -27,7 +34,6 @@
                 <a href="{{ route('login.form') }}">Iniciar Sesión</a>
             @endif
         </nav>
-
     </header>
 
     <main class="contenido">

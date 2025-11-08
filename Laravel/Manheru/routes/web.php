@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UsuarioController;
 
 // Página de inicio - se adapta si hay usuario logueado o no
 Route::get('/', function () {
@@ -20,3 +21,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 // Cerrar sesión
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// CRUD de Usuarios (solo para administradores)
+Route::resource('usuarios', UsuarioController::class)->except(['show']);
