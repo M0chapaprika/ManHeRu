@@ -17,8 +17,8 @@
         </div>
 
         <nav class="menu">
-            <a href="#">Acerca de</a>
-            <a href="#">Productos</a>
+            <a href="{{ route('acerca') }}">Acerca de</a>
+            <a href="{{ route('productos.index') }}">Productos</a>
             <a href="#">Cotizaciones</a>
             <a href="#">Contacto</a>
             

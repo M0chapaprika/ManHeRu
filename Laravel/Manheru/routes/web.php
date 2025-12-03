@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ProductoController;
 
 // Página de inicio - se adapta si hay usuario logueado o no
 Route::get('/', function () {
@@ -24,3 +25,10 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // CRUD de Usuarios (solo para administradores)
 Route::resource('usuarios', UsuarioController::class)->except(['show']);
+
+// Página Acerca de
+Route::get('/acerca', function () {
+    return view('acerca');
+})->name('acerca');
+
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
