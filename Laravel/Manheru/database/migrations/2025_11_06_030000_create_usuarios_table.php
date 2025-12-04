@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('Contrasena', 255);
             $table->string('Telefono', 20);
             $table->boolean('Estatus')->default(1);
-            $table->unsignedBigInteger('ID_Rol')->nullable();
+            $table->integer('ID_Rol')->default(2);
             $table->unsignedBigInteger('ID_Direccion')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -58,3 +58,5 @@ return new class extends Migration
     Schema::dropIfExists('usuarios');
 }
 };
+
+
