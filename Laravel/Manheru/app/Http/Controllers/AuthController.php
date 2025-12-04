@@ -1,95 +1,120 @@
 <?php
+// app/Http\Controllers/AuthController.php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Usuario;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
     /**
      * Mostrar formulario de login
      */
-    public function showLogin()
+    public function showLoginForm()
     {
-        return view('login');
+        return view('auth.login');
     }
 
     /**
-     * Procesar login
+     * Procesar el login - ADAPTADO PARA TU ESTRUCTURA
      */
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+        // Validar los datos del formulario
+        $credentials = $request->validate([
+            'email' => ['required', 'email', 'string'], // Campo 'email' en el formulario
+            'password' => ['required', 'string', 'min:6'],
         ]);
 
-        // Buscar usuario por email
-        $usuario = Usuario::where('Gmail', $request->email)->first();
+        // Buscar usuario por Gmail (que es nuestro email)
+        $user = User::where('Gmail', $credentials['email'])->first();
 
-        if ($usuario && password_verify($request->password, $usuario->Contrasena)) {
-            // Guardar usuario en sesión
-            session(['usuario' => $usuario]);
+        // Verificar si el usuario existe y la contraseña es correcta
+        if ($user && Hash::check($credentials['password'], $user->Contrasena)) {
+            // Verificar si el usuario está activo
+            if ($user->Estatus != 1) {
+                return back()->withErrors([
+                    'email' => 'Tu cuenta está desactivada. Contacta al administrador.',
+                ])->onlyInput('email');
+            }
+
+            // Iniciar sesión manualmente
+            Auth::login($user, $request->boolean('remember'));
+
+            // Regenerar sesión para prevenir fijación de sesión
+            $request->session()->regenerate();
             
-            return redirect()->route('inicio')
-                ->with('success', '¡Bienvenido ' . $usuario->Nombre . '!');
+            // Redirigir al dashboard
+            return redirect()->intended('/dashboard');
         }
 
+        // Si la autenticación falla
         return back()->withErrors([
-            'email' => 'Las credenciales proporcionadas no son válidas.',
-        ]);
+            'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
+        ])->onlyInput('email');
     }
 
     /**
      * Mostrar formulario de registro
      */
-    public function showRegister()
+    public function showRegisterForm()
     {
-        return view('registro'); // Asegúrate de que retorna 'registro'
+        return view('auth.register');
     }
 
     /**
-     * Procesar registro de nuevo usuario
+     * Procesar el registro - ADAPTADO PARA TU ESTRUCTURA
      */
     public function register(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:100',
-            'email' => 'required|email|unique:Usuarios,Gmail',
-            'password' => 'required|min:6|confirmed',
-            'password_confirmation' => 'required',
+        // Validar datos del registro
+        $validated = $request->validate([
+            'Nombre' => ['required', 'string', 'max:100'],
+            'Gmail' => ['required', 'string', 'email', 'max:255', 'unique:usuarios,Gmail'],
+            'Contrasena' => ['required', 'string', 'min:6', 'confirmed'],
+            'Telefono' => ['required', 'string', 'max:20'],
+            'ID_Rol' => ['nullable', 'integer'],
         ]);
 
-        try {
-            // Crear nuevo usuario
-            $usuario = new Usuario();
-            $usuario->Nombre = $request->nombre;
-            $usuario->Gmail = $request->email;
-            $usuario->Contrasena = password_hash($request->password, PASSWORD_DEFAULT);
-            $usuario->ID_Rol = 2; // Rol de usuario normal por defecto
-            $usuario->save();
+        // Crear el usuario con la estructura correcta
+        $user = User::create([
+            'Nombre' => $validated['Nombre'],
+            'Gmail' => $validated['Gmail'],
+            'Contrasena' => Hash::make($validated['Contrasena']),
+            'Telefono' => $validated['Telefono'],
+            'Estatus' => 1, // Activo por defecto
+            'ID_Rol' => $validated['ID_Rol'] ?? 2, // Rol por defecto (2 = usuario normal)
+        ]);
 
-            // Iniciar sesión automáticamente
-            session(['usuario' => $usuario]);
+        // Autenticar al usuario después del registro
+        Auth::login($user);
 
-            return redirect()->route('inicio')
-                ->with('success', '¡Cuenta creada exitosamente! Bienvenido ' . $usuario->Nombre);
-
-        } catch (\Exception $e) {
-            return back()->withErrors([
-                'error' => 'Error al crear la cuenta. Por favor, intente nuevamente.',
-            ]);
-        }
+        // Redirigir al dashboard
+        return redirect('/dashboard')->with('success', '¡Cuenta creada exitosamente!');
     }
 
     /**
      * Cerrar sesión
      */
-    public function logout()
+    public function logout(Request $request)
     {
-        session()->forget('usuario');
-        return redirect()->route('inicio')
-            ->with('success', 'Sesión cerrada correctamente.');
+        Auth::logout();
+        
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect('/');
+    }
+
+    /**
+     * Mostrar dashboard (protegido)
+     */
+    public function dashboard()
+    {
+        return view('dashboard');
     }
 }

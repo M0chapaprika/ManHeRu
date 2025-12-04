@@ -11,6 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Sin seeders por ahora
+        // Ejecutar seeders en orden
+        $this->call([
+            RolesTableSeeder::class,      // Primero los roles
+            UserSeeder::class,            // Luego los usuarios
+            // Agrega otros seeders aquí...
+        ]);
     }
 }
