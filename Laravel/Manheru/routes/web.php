@@ -32,3 +32,8 @@ Route::get('/acerca', function () {
 })->name('acerca');
 
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+
+// Página de cotizaciones
+Route::get('/cotizaciones', function () {
+    return view('cotizaciones');
+})->name('cotizaciones');
