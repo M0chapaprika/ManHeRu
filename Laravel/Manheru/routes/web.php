@@ -38,6 +38,23 @@ Route::get('/acerca', function () {
 })->name('acerca');
 
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+// Página de productos
+// Rutas públicas (accesibles sin login)
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+Route::get('/productos/{id}', [ProductoController::class, 'show'])->name('productos.show');
+
+// Rutas protegidas para administradores
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Rutas de gestión de productos
+    Route::get('/productos/crear', [ProductoController::class, 'create'])->name('productos.create');
+    Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
+    Route::get('/productos/{id}/editar', [ProductoController::class, 'edit'])->name('productos.edit');
+    Route::put('/productos/{id}', [ProductoController::class, 'update'])->name('productos.update');
+    Route::delete('/productos/{id}', [ProductoController::class, 'destroy'])->name('productos.destroy');
+    Route::post('/productos/{id}/toggle-disponible', [ProductoController::class, 'toggleDisponible'])->name('productos.toggle');
+});
+
+// Página de cotizaciones
 Route::get('/cotizaciones', function () {
     return view('cotizaciones');
 })->name('cotizaciones');

@@ -1,30 +1,49 @@
 <?php
+// app/Models/Producto.php
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
-    protected $table = 'Productos';
-    protected $primaryKey = 'ID_Producto';
-    public $timestamps = false;
-    
+    use HasFactory;
+
+    // Especificar el nombre de la tabla
+    protected $table = 'productos';
+
+    // Los campos que se pueden asignar en masa
     protected $fillable = [
-        'Nombre',
-        'Estatus',
-        'ID_Tipo'
+        'nombre',
+        'descripcion', 
+        'categoria',
+        'imagen',
+        'precio',
+        'disponible'
     ];
-    
+
+    // Los campos que deben ser convertidos a tipos nativos
     protected $casts = [
-        'Estatus' => 'boolean'
+        'precio' => 'decimal:2',
+        'disponible' => 'boolean'
     ];
-    
-    /**
-     * Relación con la tabla Tipos
-     */
-    public function tipo()
+
+    // Mutador para el nombre (opcional)
+    public function setNombreAttribute($value)
     {
-        return $this->belongsTo(Tipo::class, 'ID_Tipo', 'ID_Tipo');
+        $this->attributes['nombre'] = ucfirst(strtolower($value));
+    }
+
+    // Accesor para precio formateado
+    public function getPrecioFormateadoAttribute()
+    {
+        return '$' . number_format($this->precio, 2);
+    }
+
+    // Accesor para disponibilidad en texto
+    public function getDisponibilidadTextoAttribute()
+    {
+        return $this->disponible ? 'Disponible' : 'Agotado';
     }
 }

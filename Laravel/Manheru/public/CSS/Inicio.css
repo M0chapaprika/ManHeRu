@@ -7,7 +7,7 @@ body {
 
 .navbar {
     display: flex;
-    justify-content: space-between; 
+    gap: 10%;
     align-items: center;
     background-color: #fff;
     padding: 10px 40px;
@@ -40,9 +40,7 @@ body {
     padding: 10px 25px;
     border-radius: 5px;
     box-shadow: 0px 4px 4px rgba(0,0,0,0.1);
-    position: absolute; 
-    left: 50%; 
-    transform: translateX(-50%); 
+    position: relative; 
 }
 
 .menu a {
