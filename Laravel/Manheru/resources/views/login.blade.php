@@ -37,7 +37,7 @@
 
             <div class="extra-options">
                 <a href="#">¿Olvidaste tu contraseña?</a>
-                <a href="#">Crear cuenta nueva</a>
+                <a href="{{ route('register.form') }}">Crear cuenta nueva</a>
             </div>
         </div>
     </main>

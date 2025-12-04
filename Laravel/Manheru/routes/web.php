@@ -20,6 +20,12 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login.form');
 // Procesar login (POST)
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+// Mostrar formulario de registro
+Route::get('/registro', [AuthController::class, 'showRegister'])->name('register.form');
+
+// Procesar registro (POST)
+Route::post('/registro', [AuthController::class, 'register'])->name('register');
+
 // Cerrar sesión
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -31,6 +37,7 @@ Route::get('/acerca', function () {
     return view('acerca');
 })->name('acerca');
 
+// Página de productos
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 
 // Página de cotizaciones
