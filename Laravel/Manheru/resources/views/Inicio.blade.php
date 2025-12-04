@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ManHeRu - Mobiliario para empresas</title>
     <link rel="stylesheet" href="{{ asset('css/inicio.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- INCLUIR COMPONENTE DE ALERTAS -->
@@ -29,8 +30,24 @@
                 @if(session('usuario')->ID_Rol == 1)
                     <a href="{{ route('usuarios.index') }}">Gestión de Usuarios</a>
                 @endif
-                <!-- Mostrar cuando el usuario está logueado -->
-                <a href="{{ route('logout') }}">Cerrar Sesión</a>
+                
+                <!-- Botón para perfil del usuario -->
+                <div class="user-profile-dropdown">
+                    <button class="profile-btn">
+                        <i class="fas fa-user-circle"></i> Mi Perfil
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{{ route('perfil') }}">
+                            <i class="fas fa-user"></i> Ver Perfil
+                        </a>
+                        <a href="{{ route('perfil.pedidos') }}">
+                            <i class="fas fa-shopping-bag"></i> Mis Pedidos
+                        </a>
+                        <a href="{{ route('logout') }}">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
             @else
                 <!-- Mostrar cuando no hay sesión -->
                 <a href="{{ route('login.form') }}">Iniciar Sesión</a>
@@ -63,9 +80,34 @@
                             Invitado
                         @endif
                     </p>
+                    <a href="{{ route('perfil') }}" class="btn-perfil" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #8b0000; color: white; text-decoration: none; border-radius: 4px;">
+                        <i class="fas fa-user"></i> Ir a mi perfil
+                    </a>
                 </div>
             @endif
         </section>
     </main>
+
+    <script>
+        // JavaScript para el dropdown del perfil
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileBtn = document.querySelector('.profile-btn');
+            if (profileBtn) {
+                profileBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const dropdown = this.nextElementSibling;
+                    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                });
+                
+                // Cerrar dropdown al hacer clic fuera
+                document.addEventListener('click', function() {
+                    const dropdowns = document.querySelectorAll('.dropdown-content');
+                    dropdowns.forEach(dropdown => {
+                        dropdown.style.display = 'none';
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
