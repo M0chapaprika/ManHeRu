@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acerca de - ManHeRu</title>
+    <title>ManHeRu - Acerca de</title>
     <link rel="stylesheet" href="{{ asset('css/inicio.css') }}">
     <link rel="stylesheet" href="{{ asset('css/acerca.css') }}">
 </head>
@@ -12,7 +12,9 @@
 
     <header class="navbar">
         <div class="logo">
-            <img src="{{ asset('images/Logo.jpg') }}" alt="Logo ManHeRu">
+            <a href="{{ route('inicio') }}">
+                <img src="{{ asset('images/Logo.jpg') }}" alt="Logo ManHeRu">
+            </a>
             <span class="nombre">ManHeRu</span>
         </div>
 

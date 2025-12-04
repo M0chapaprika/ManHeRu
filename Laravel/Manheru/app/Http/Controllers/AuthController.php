@@ -14,9 +14,9 @@ class AuthController extends Controller
     /**
      * Mostrar formulario de login
      */
-    public function showLoginForm()
+    public function showLogin()
     {
-        return view('auth.login');
+        return view('login');
     }
 
     /**
@@ -49,7 +49,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
             
             // Redirigir al dashboard
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/');
         }
 
         // Si la autenticación falla
@@ -61,9 +61,9 @@ class AuthController extends Controller
     /**
      * Mostrar formulario de registro
      */
-    public function showRegisterForm()
+    public function showRegister()
     {
-        return view('auth.register');
+        return view('registro');
     }
 
     /**
@@ -94,7 +94,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         // Redirigir al dashboard
-        return redirect('/dashboard')->with('success', '¡Cuenta creada exitosamente!');
+        return redirect('/')->with('success', '¡Cuenta creada exitosamente!');
     }
 
     /**

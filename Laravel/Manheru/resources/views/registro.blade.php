@@ -190,15 +190,16 @@
 <body>
     <header class="navbar">
         <div class="logo">
-            <img src="{{ asset('images/Logo.jpg') }}" alt="Logo ManHeRu">
+            <a href="{{ route('inicio') }}">
+                <img src="{{ asset('images/Logo.jpg') }}" alt="Logo ManHeRu">
+            </a>
             <span class="nombre">ManHeRu</span>
         </div>
     </header>
 
     <main class="registro-container">
         <div class="registro-card">
-            <h2>Crear Cuenta</h2>
-            <p class="subtitle">Regístrate para acceder a todos los beneficios</p>
+            <h2>Registrarme</h2>
 
             <!-- Mostrar mensajes de error -->
             @if ($errors->any())
@@ -263,7 +264,6 @@
                            value="{{ old('Telefono') }}" 
                            required
                            autocomplete="tel">
-                    <small class="form-text">Formato: números, espacios, guiones o paréntesis</small>
                     @error('Telefono')
                         <span class="error-message">{{ $message }}</span>
                     @enderror
@@ -273,7 +273,7 @@
                 <div class="form-group">
                     <label for="Contrasena">Contraseña *</label>
                     <input type="password" id="Contrasena" name="Contrasena" 
-                           placeholder="Mínimo 6 caracteres (recomendado 8+ con mayúsculas, números y símbolos)" 
+                           placeholder="6+ caracteres con mayúsculas, números y símbolos" 
                            required
                            autocomplete="new-password">
                     <div id="password-strength" class="password-strength"></div>
@@ -295,17 +295,17 @@
                 <!-- Campo Rol oculto (valor por defecto) -->
                 <input type="hidden" name="ID_Rol" value="2">
 
-                <button type="submit" class="btn-register">Crear Cuenta</button>
+                <button type="submit" class="btn-register">Registrarme</button>
                 
                 <p class="terms-notice">
                     Al registrarte, aceptas nuestros 
-                    <a href="#">Términos de Servicio</a> y 
+                    <br><a href="#">Términos de Servicio</a> y 
                     <a href="#">Política de Privacidad</a>.
                 </p>
             </form>
 
             <div class="extra-options">
-                <a href="{{ route('login') }}">¿Ya tienes una cuenta? Inicia sesión</a>
+                <a href="{{ route('login') }}">¿Ya tienes una cuenta? Iniciar sesión</a>
                 <a href="{{ url('/') }}">Volver al inicio</a>
             </div>
         </div>

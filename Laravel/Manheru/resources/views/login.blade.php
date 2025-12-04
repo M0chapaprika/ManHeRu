@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - ManHeRu</title>
+    <title>ManHeRu - Iniciar sesión</title>
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <style>
         .error-message {
@@ -33,7 +33,9 @@
 <body>
     <header class="navbar">
         <div class="logo">
-            <img src="{{ asset('images/Logo.jpg') }}" alt="Logo ManHeRu">
+            <a href="{{ route('inicio') }}">
+                <img src="{{ asset('images/Logo.jpg') }}" alt="Logo ManHeRu">
+            </a>
             <span class="nombre">ManHeRu</span>
         </div>
     </header>
@@ -96,7 +98,7 @@
 
             <div class="extra-options">
                 <a href="#">¿Olvidaste tu contraseña?</a>
-                <a href="{{ route('register.form') }}">Crear cuenta nueva</a>
+                <a href="{{ route('register.form') }}">Registrarme</a>
             </div>
         </div>
     </main>

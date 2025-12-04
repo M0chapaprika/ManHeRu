@@ -13,7 +13,9 @@
 
     <header class="navbar">
         <div class="logo">
-            <img src="{{ asset('images/Logo.jpg') }}" alt="Logo ManHeRu">
+            <a href="{{ route('inicio') }}">
+                <img src="{{ asset('images/Logo.jpg') }}" alt="Logo ManHeRu">
+            </a>
             <span class="nombre">ManHeRu</span>
         </div>
 
