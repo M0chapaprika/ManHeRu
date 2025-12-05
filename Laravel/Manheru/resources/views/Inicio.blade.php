@@ -23,7 +23,7 @@
             <a href="{{ route('acerca') }}">Acerca de</a>
             <a href="{{ route('productos') }}">Productos</a>
             <a href="{{ route('cotizaciones') }}">Cotizaciones</a>
-            <a href="#">Contacto</a>
+            <a href="{{ route('contacto') }}">Contacto</a>
             
             @if(session()->has('usuario'))
                 <!-- Mostrar opciones de administrador solo si tiene rol 1 -->
@@ -62,7 +62,6 @@
                 Creamos espacios de trabajo funcionales y modernos,<br>
                 adaptados a las necesidades de tu empresa.
             </p>
-            <button class="btn-catalogo">Ver catálogo</button>
             
         </section>
     </main>

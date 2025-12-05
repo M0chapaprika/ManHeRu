@@ -1,40 +1,85 @@
-<!-- En la sección de cada producto, agrega: -->
-@auth
-    @if(Auth::user()->ID_Rol == 1)
-        <div class="producto-acciones" style="margin-top: 10px;">
-            <a href="{{ route('productos.edit', $producto->id) }}" 
-               class="btn-editar" 
-               style="background: #3498db; color: white; padding: 5px 10px; border-radius: 4px; text-decoration: none; margin-right: 5px;">
-                Editar
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManHeRu - Productos</title>
+    <link rel="stylesheet" href="{{ asset('css/inicio.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/productos.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- INCLUIR COMPONENTE DE ALERTAS -->
+    @include('components.alert')
+
+    <header class="navbar">
+        <div class="logo">
+            <a href="{{ route('inicio') }}">
+                <img src="{{ asset('images/Logo.jpg') }}" alt="Logo ManHeRu">
             </a>
-            <form action="{{ route('productos.destroy', $producto->id) }}" 
-                  method="POST" 
-                  style="display: inline;"
-                  onsubmit="return confirm('¿Estás seguro de eliminar este producto?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" 
-                        class="btn-eliminar" 
-                        style="background: #e74c3c; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer;">
-                    Eliminar
-                </button>
-            </form>
+            <span class="nombre">ManHeRu</span>
+        </div>
+
+        <nav class="menu">
+            <a href="{{ route('inicio') }}">Inicio</a>
+            <a href="{{ route('acerca') }}">Acerca de</a>
+            <a href="{{ route('productos.index') }}">Productos</a>
+            <a href="{{ route('cotizaciones') }}">Cotizaciones</a>
+            <a href="#">Contacto</a>
             
-            <form action="{{ route('productos.toggle', $producto->id) }}" 
-                  method="POST" 
-                  style="display: inline; margin-left: 5px;">
-                @csrf
-                <button type="submit" 
-                        class="btn-toggle" 
-                        style="background: {{ $producto->disponible ? '#f39c12' : '#27ae60' }}; 
-                               color: white; 
-                               padding: 5px 10px; 
-                               border: none; 
-                               border-radius: 4px; 
-                               cursor: pointer;">
-                    {{ $producto->disponible ? 'Marcar como Agotado' : 'Marcar como Disponible' }}
-                </button>
-            </form>
+            @if(session()->has('usuario'))
+                @if(session('usuario')->ID_Rol == 1)
+                    <a href="{{ route('usuarios.index') }}">Gestión de Usuarios</a>
+                @endif
+                
+                <!-- Carrito de compras -->
+                <a href="{{ route('carrito') }}" class="carrito-link" id="carrito-header">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="carrito-contador" id="carrito-contador">
+                        {{ session('carrito_count', 0) }}
+                    </span>
+                </a>
+                
+                <!-- Dropdown del perfil -->
+                <div class="user-profile-dropdown">
+                    <button class="profile-btn">
+                        <i class="fas fa-user-circle"></i> {{ session('usuario')->Nombre }}
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{{ route('perfil') }}">
+                            <i class="fas fa-user"></i> Mi Perfil
+                        </a>
+                        <a href="{{ route('perfil.pedidos') }}">
+                            <i class="fas fa-shopping-bag"></i> Mis Pedidos
+                        </a>
+                        <a href="{{ route('carrito') }}">
+                            <i class="fas fa-shopping-cart"></i> Mi Carrito
+                        </a>
+                        <a href="{{ route('logout') }}">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
+            @else
+                <a href="{{ route('login.form') }}">Iniciar Sesión</a>
+            @endif
+        </nav>
+    </header>
+
+    <main class="productos-container">
+        <div class="productos-header">
+            <h1 class="titulo-principal">VARIEDAD DE MOBILIARIO PARA TODOS LOS ESPACIOS</h1>
+            <p class="subtitulo">Productos más buscados en el mercado</p>
+            
+            <!-- Barra de búsqueda -->
+            <div class="buscador-container">
+                <div class="buscador">
+                    <input type="text" id="buscador-productos" placeholder="Buscar productos por nombre...">
+                    <button type="button" id="btn-buscar">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     @endif
 @endauth
