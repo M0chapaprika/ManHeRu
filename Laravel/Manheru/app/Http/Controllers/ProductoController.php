@@ -18,7 +18,7 @@ class ProductoController extends Controller
         // Obtener todos los productos de la base de datos
         $productos = Producto::orderBy('created_at', 'desc')->get();
         
-        return view('productos.index', compact('productos'));
+        return view('productos');
     }
 
     /**
@@ -139,7 +139,7 @@ class ProductoController extends Controller
             
             $imagen = $request->file('imagen');
             $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
-            $imagenPath = $imagen->storeAs('productos', $nombreImagen, 'public');
+            $imagenPath = $imagen->storeAs('productos.index', $nombreImagen, 'public');
             $producto->imagen = $imagenPath;
         }
 

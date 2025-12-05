@@ -21,7 +21,7 @@
 
         <nav class="menu">
             <a href="{{ route('acerca') }}">Acerca de</a>
-            <a href="{{ route('productos.index') }}">Productos</a>
+            <a href="{{ route('productos') }}">Productos</a>
             <a href="{{ route('cotizaciones') }}">Cotizaciones</a>
             <a href="#">Contacto</a>
             
@@ -64,27 +64,6 @@
             </p>
             <button class="btn-catalogo">Ver catálogo</button>
             
-            <!-- Mostrar información adicional si el usuario está logueado -->
-            @if(session()->has('usuario'))
-                <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 5px; border-left: 4px solid #8b0000;">
-                    <h3 style="color: #8b0000; margin-bottom: 10px;">Sesión activa</h3>
-                    <p style="margin: 5px 0;"><strong>Usuario:</strong> {{ session('usuario')->Nombre }}</p>
-                    <p style="margin: 5px 0;"><strong>Email:</strong> {{ session('usuario')->Gmail }}</p>
-                    <p style="margin: 5px 0;">
-                        <strong>Rol:</strong> 
-                        @if(session('usuario')->ID_Rol == 1)
-                            Administrador
-                        @elseif(session('usuario')->ID_Rol == 2)
-                            Usuario
-                        @else
-                            Invitado
-                        @endif
-                    </p>
-                    <a href="{{ route('perfil') }}" class="btn-perfil" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #8b0000; color: white; text-decoration: none; border-radius: 4px;">
-                        <i class="fas fa-user"></i> Ir a mi perfil
-                    </a>
-                </div>
-            @endif
         </section>
     </main>
 
