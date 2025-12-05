@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\FavoritoController;
+use Illuminate\Http\Request;
 
 // Página de inicio
 Route::get('/', function () {
@@ -57,3 +58,38 @@ Route::get('/productos', [ProductoController::class, 'index'])->name('productos.
 Route::get('/cotizaciones', function () {
     return view('cotizaciones');
 })->name('cotizaciones');
+
+// Ruta para la página de contacto
+Route::get('/contacto', function () {
+    return view('contacto');
+})->name('contacto');
+
+// Ruta para enviar el formulario de contacto
+Route::post('/contacto/enviar', function (Request $request) {
+    // Validación de datos
+    $validated = $request->validate([
+        'nombre' => 'required|string|max:100',
+        'email' => 'required|email|max:100',
+        'telefono' => 'nullable|string|max:20',
+        'empresa' => 'nullable|string|max:100',
+        'asunto' => 'required|string',
+        'prioridad' => 'required|in:baja,media,alta',
+        'mensaje' => 'required|string|min:10|max:1000'
+    ]);
+    
+    // Aquí iría la lógica para enviar el correo al encargado de distribución
+    // Por ejemplo:
+    // Mail::to('distribucion@manheru.com')->send(new ContactoMensaje($validated));
+    
+    // Por ahora, solo guardamos en sesión para mostrar
+    $mensajes = session('contacto_mensajes', []);
+    $mensajes[] = [
+        'id' => count($mensajes) + 1,
+        'fecha' => now(),
+        'datos' => $validated
+    ];
+    session(['contacto_mensajes' => $mensajes]);
+    
+    return redirect()->route('contacto')
+        ->with('success', '¡Mensaje enviado correctamente! El encargado de distribución se pondrá en contacto contigo pronto.');
+})->name('contacto.enviar');
